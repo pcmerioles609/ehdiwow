@@ -1,18 +1,34 @@
 [
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\build\\intermediates\\res\\merged\\debug\\layout\\gatt_services_characteristics.xml",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\src\\main\\res\\layout\\gatt_services_characteristics.xml"
+        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\actionbar_indeterminate_progress.xml",
+        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\layout\\actionbar_indeterminate_progress.xml"
     },
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\build\\intermediates\\res\\merged\\debug\\layout\\list_tester_devices.xml",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\src\\main\\res\\layout\\list_tester_devices.xml"
+        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\gatt_services_characteristics.xml",
+        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\layout\\gatt_services_characteristics.xml"
+    },
+    {
+        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\build\\intermediates\\res\\merged\\debug\\layout\\gatt_services_characteristics.xml",
+        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\src\\main\\res\\layout\\gatt_services_characteristics.xml"
     },
     {
         "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\build\\intermediates\\res\\merged\\debug\\layout\\start_screen.xml",
         "source": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\src\\main\\res\\layout\\start_screen.xml"
     },
     {
+        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\build\\intermediates\\res\\merged\\debug\\layout\\list_tester_devices.xml",
+        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\src\\main\\res\\layout\\list_tester_devices.xml"
+    },
+    {
+        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\start_screen.xml",
+        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\layout\\start_screen.xml"
+    },
+    {
         "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\build\\intermediates\\res\\merged\\debug\\layout\\actionbar_indeterminate_progress.xml",
         "source": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\src\\main\\res\\layout\\actionbar_indeterminate_progress.xml"
+    },
+    {
+        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\list_tester_devices.xml",
+        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\layout\\list_tester_devices.xml"
     }
 ]
