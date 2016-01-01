@@ -14,7 +14,9 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -57,6 +59,7 @@ public class DeviceControlActivity extends Activity {
     private RadioButton rad_TTL;
     private RadioButton rad_CMOS;
     private Spinner spnr_DUT;
+    private Button btn_TEST;
 
     private TextView txt_testerStatus;
     private ScheduledExecutorService waitTesterResponse;
@@ -127,6 +130,7 @@ public class DeviceControlActivity extends Activity {
         if (!waitTesterResponse.isShutdown())
             waitTesterResponse.shutdown();
         tester_responding = false;
+        enableDisableUI(false);
     }
 
     @Override
@@ -143,7 +147,6 @@ public class DeviceControlActivity extends Activity {
         mConnectionState = (TextView) findViewById(R.id.connection_state);
         // is serial present?
         isSerial = (TextView) findViewById(R.id.isSerial);
-   
         mDataField = (TextView) findViewById(R.id.data_value);
      
         getActionBar().setTitle(mDeviceName);
@@ -154,11 +157,13 @@ public class DeviceControlActivity extends Activity {
         rad_TTL = (RadioButton)findViewById(R.id.radTTL);
         rad_CMOS = (RadioButton)findViewById(R.id.radCMOS);
         spnr_DUT = (Spinner)findViewById(R.id.spnrDutName);
+        btn_TEST = (Button)findViewById(R.id.btnTest);
+
+        enableDisableUI(false);
+
         onDeviceTypeChanged();
         rad_TTL.setChecked(true);
         txt_testerStatus = (TextView)findViewById(R.id.testerStatus);
-
-
     }
 
     @Override
@@ -232,6 +237,7 @@ public class DeviceControlActivity extends Activity {
                 if (!waitTesterResponse.isShutdown())
                     waitTesterResponse.shutdown();
                 txt_testerStatus.setText(" Responding");
+                enableDisableUI(true);
             }
             tester_responding = true;
         }
@@ -310,6 +316,18 @@ public class DeviceControlActivity extends Activity {
 
 
 /******************         DEVICE UNDER TEST       ******************************/
+
+    private void enableDisableUI(boolean isEnab) {
+        TextView dut_Name = (TextView)findViewById(R.id.txtDutType);
+        TextView dut_Type = (TextView)findViewById(R.id.txtDutName);
+
+        dut_Name.setEnabled((isEnab));
+        dut_Type.setEnabled(isEnab);
+        rad_TTL.setEnabled(isEnab);
+        rad_CMOS.setEnabled(isEnab);
+        spnr_DUT.setEnabled(isEnab);
+        btn_TEST.setEnabled(isEnab);
+    }
 
 
     private void onDeviceTypeChanged() {

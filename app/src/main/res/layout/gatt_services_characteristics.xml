@@ -112,6 +112,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/viewGroupUI"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="10dp"
@@ -123,7 +124,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/txt_dutType"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:enabled="false" />
 
         <TextView
             android:id="@+id/txtDutName"
@@ -132,7 +134,8 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/txt_dutName"
             android:layout_below="@+id/txtDutType"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:enabled="false"/>
 
         <RadioGroup
             android:id="@+id/radGrpDutType"
@@ -147,14 +150,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rad_ttl"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:enabled="false" />
 
             <RadioButton
                 android:id="@+id/radCMOS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rad_cmos"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:enabled="false"/>
 
         </RadioGroup>
 
@@ -164,14 +169,16 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/txtDutName"
             android:layout_toEndOf="@+id/txtDutName"
-            android:padding="10dp"/>
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/btnTest"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_btnTest"
+            android:layout_below="@+id/txtDutName"
+            android:enabled="false"/>
 
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/btnTest"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_btnTest" />
 
 </LinearLayout>
