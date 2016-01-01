@@ -1,9 +1,5 @@
 [
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_launcher.png",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
-    },
-    {
         "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_launcher.png",
         "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
     }

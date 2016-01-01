@@ -1,9 +1,5 @@
 [
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\dic_launcher.png",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\DigitalIcTester\\app\\src\\main\\res\\mipmap-mdpi\\dic_launcher.png"
-    },
-    {
         "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\dic_launcher.png",
         "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\mipmap-mdpi\\dic_launcher.png"
     }

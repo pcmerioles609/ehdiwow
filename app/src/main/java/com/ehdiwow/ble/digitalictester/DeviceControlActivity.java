@@ -11,10 +11,11 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -56,14 +57,15 @@ public class DeviceControlActivity extends Activity {
     private BluetoothGattCharacteristic characteristicRX;
 
 
+    private String dataFromTester = "";
     private RadioButton rad_TTL;
     private RadioButton rad_CMOS;
     private Spinner spnr_DUT;
     private Button btn_TEST;
+    private TextView txt_testResults;
 
     private TextView txt_testerStatus;
-    private ScheduledExecutorService waitTesterResponse;
-    private boolean tester_responding = false;
+    private ScheduledExecutorService waitForTesterToRespond;
 
 
 
@@ -117,7 +119,7 @@ public class DeviceControlActivity extends Activity {
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 // Show all the supported services and characteristics on the user interface.
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
-                respondToTester();
+                askIfTesterIsReady(1);
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 decodeDataFromTester(intent.getStringExtra(mBluetoothLeService.EXTRA_DATA));
             }
@@ -127,10 +129,11 @@ public class DeviceControlActivity extends Activity {
     private void clearUI() {
         mDataField.setText(R.string.no_data);
         txt_testerStatus.setText("Not Responding");
-        if (!waitTesterResponse.isShutdown())
-            waitTesterResponse.shutdown();
-        tester_responding = false;
+        if (!waitForTesterToRespond.isShutdown())
+            waitForTesterToRespond.shutdown();
+
         enableDisableUI(false);
+        appendTestResults("", true);
     }
 
     @Override
@@ -158,12 +161,14 @@ public class DeviceControlActivity extends Activity {
         rad_CMOS = (RadioButton)findViewById(R.id.radCMOS);
         spnr_DUT = (Spinner)findViewById(R.id.spnrDutName);
         btn_TEST = (Button)findViewById(R.id.btnTest);
+        txt_testResults  = (TextView)findViewById(R.id.txtTestResults);
 
         enableDisableUI(false);
 
         onDeviceTypeChanged();
         rad_TTL.setChecked(true);
         txt_testerStatus = (TextView)findViewById(R.id.testerStatus);
+        onStartDutTestClick();
     }
 
     @Override
@@ -232,19 +237,21 @@ public class DeviceControlActivity extends Activity {
     private void decodeDataFromTester(String data) {
 
         if (data != null) {
+            dataFromTester = data;
             mDataField.setText(data);
-            if (data.equals("OK")) {
-                if (!waitTesterResponse.isShutdown())
-                    waitTesterResponse.shutdown();
+            if (data.equals("STRTOK")) {
+                if (!waitForTesterToRespond.isShutdown())
+                    waitForTesterToRespond.shutdown();
                 txt_testerStatus.setText(" Responding");
                 enableDisableUI(true);
+            } else if (data.equals("TESTOK")) {
+                if (!waitForTesterToRespond.isShutdown())
+                    waitForTesterToRespond.shutdown();
+                appendTestResults("Tester Device Ready.", false);
+                appendTestResults("Initializing test for " + spnr_DUT.getSelectedItem().toString(), false);
             }
-            tester_responding = true;
         }
-
-
     }
-
 
     // Demonstrates how to iterate through the supported GATT Services/Characteristics.
     // In this sample, we populate the data structure that is bound to the ExpandableListView
@@ -291,16 +298,30 @@ public class DeviceControlActivity extends Activity {
 
 /******************     ESTABLISH CONNECTION WITH THE TESTER    ********************/
 
+    //  RESPOND REQUEST CODES //
+    //  0 - reserved
+    //  1 - startUp
+    //  2 - beginTest
+    //  3 - endTest
 
-    private void respondToTester() {
-        txt_testerStatus.setText("Waiting for response...");
+    private void askIfTesterIsReady(final int code) {
 
-        String appResponse = "READY" + "\n";
-        final byte[] tx = appResponse.getBytes();
+        String sendTestRequest = "";
+        switch (code) {
+            case 0:
+                    break;
+            case 1: txt_testerStatus.setText("Waiting for response...");
+                    sendTestRequest = "RDYSTRT?" + "\n";
+                    break;
+            case 2: sendTestRequest = "RDYTEST?" + "\n";
+                    break;
+            case 3: sendTestRequest = "ENDTEST?" + "\n";
+                    break;
+        }
+        final byte[] tx = sendTestRequest.getBytes();
 
-
-        waitTesterResponse = Executors.newSingleThreadScheduledExecutor();
-        waitTesterResponse.scheduleAtFixedRate(new Runnable() {
+        waitForTesterToRespond = Executors.newSingleThreadScheduledExecutor();
+        waitForTesterToRespond.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 if (mConnected) {
@@ -309,10 +330,8 @@ public class DeviceControlActivity extends Activity {
                     mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
                 }
             }
-        }, 0, 1000, TimeUnit.MILLISECONDS);
+        }, 0, 2000, TimeUnit.MILLISECONDS);
     }
-
-
 
 
 /******************         DEVICE UNDER TEST       ******************************/
@@ -329,21 +348,21 @@ public class DeviceControlActivity extends Activity {
         btn_TEST.setEnabled(isEnab);
     }
 
-
     private void onDeviceTypeChanged() {
         RadioGroup rdGrp_dutType = (RadioGroup)findViewById(R.id.radGrpDutType);
         rdGrp_dutType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId) {
-                    case R.id.radTTL:  changeDutList(R.array.ttlList);
-                                       break;
-                    case R.id.radCMOS: changeDutList(R.array.cmosList);
-                                       break;
+                switch (checkedId) {
+                    case R.id.radTTL:
+                        changeDutList(R.array.ttlList);
+                        break;
+                    case R.id.radCMOS:
+                        changeDutList(R.array.cmosList);
+                        break;
                 }
             }
         });
-
     }
 
     private void changeDutList(int id) {
@@ -352,5 +371,29 @@ public class DeviceControlActivity extends Activity {
 
         dutAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnr_DUT.setAdapter(dutAdapter);
+    }
+
+    private void onStartDutTestClick() {                                // starts testing process
+        btn_TEST.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                enableDisableUI(false);                                 // disables UI first to prevent necessary user clicks
+                appendTestResults("Waiting for tester...", false);
+                askIfTesterIsReady(2);
+            }
+        });
+    }
+
+    private void appendTestResults(String appendLine, boolean clear) {
+        if (clear)
+            txt_testResults.setText("");
+        else {
+            String results = txt_testResults.getText().toString();
+            results += appendLine + "\n";
+
+            txt_testResults.setMovementMethod(new ScrollingMovementMethod());
+            txt_testResults.setText(results);
+        }
     }
 }

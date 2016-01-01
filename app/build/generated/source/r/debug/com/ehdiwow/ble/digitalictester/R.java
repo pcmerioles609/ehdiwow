@@ -23,13 +23,13 @@ public final class R {
         public static final int connection_state=0x7f080001;
         public static final int data_value=0x7f080002;
         public static final int device_address=0x7f080000;
-        public static final int device_name=0x7f08000d;
+        public static final int device_name=0x7f08000e;
         public static final int isSerial=0x7f080003;
-        public static final int menu_connect=0x7f08000f;
-        public static final int menu_disconnect=0x7f080010;
-        public static final int menu_refresh=0x7f08000e;
-        public static final int menu_scan=0x7f080011;
-        public static final int menu_stop=0x7f080012;
+        public static final int menu_connect=0x7f080010;
+        public static final int menu_disconnect=0x7f080011;
+        public static final int menu_refresh=0x7f08000f;
+        public static final int menu_scan=0x7f080012;
+        public static final int menu_stop=0x7f080013;
         public static final int radCMOS=0x7f08000a;
         public static final int radGrpDutType=0x7f080008;
         public static final int radTTL=0x7f080009;
@@ -37,6 +37,7 @@ public final class R {
         public static final int testerStatus=0x7f080004;
         public static final int txtDutName=0x7f080007;
         public static final int txtDutType=0x7f080006;
+        public static final int txtTestResults=0x7f08000d;
         public static final int viewGroupUI=0x7f080005;
     }
     public static final class layout {
