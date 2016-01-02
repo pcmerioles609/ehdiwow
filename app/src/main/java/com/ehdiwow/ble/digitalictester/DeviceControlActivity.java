@@ -243,12 +243,29 @@ public class DeviceControlActivity extends Activity {
                 if (!waitForTesterToRespond.isShutdown())
                     waitForTesterToRespond.shutdown();
                 txt_testerStatus.setText(" Responding");
+                appendTestResults("", true);
                 enableDisableUI(true);
             } else if (data.equals("TESTOK")) {
                 if (!waitForTesterToRespond.isShutdown())
                     waitForTesterToRespond.shutdown();
                 appendTestResults("Tester Device Ready.", false);
                 appendTestResults("Initializing test for " + spnr_DUT.getSelectedItem().toString(), false);
+                initTestProcess();
+            } else if (data.equals("PINOK")) {
+                appendTestResults("PinMode Setup Complete.", false);
+            } else if (data.equals("PWROK")) {
+                appendTestResults("Power Setup Complete.", false);
+            } else if (data.equals("RNDOK")) {
+                appendTestResults("Generating randomized test input complete.", false);
+            } else if (data.equals("TESTOK")) {
+                appendTestResults("Device Test completed. Comparing results...", false);
+            } else if (data.equals("ENDOK")) {
+                appendTestResults("Device Passed/Failed", false);
+                enableDisableUI(true);
+            } else if (data.equals("OFFLINE")) {
+                appendTestResults("", true);
+                appendTestResults("Tester found but is currently in offline mode.\n" +
+                        "Restart tester to enter connect with this app.", false);
             }
         }
     }
@@ -379,6 +396,7 @@ public class DeviceControlActivity extends Activity {
             public void onClick(View v) {
 
                 enableDisableUI(false);                                 // disables UI first to prevent necessary user clicks
+                appendTestResults("", true);
                 appendTestResults("Waiting for tester...", false);
                 askIfTesterIsReady(2);
             }
@@ -394,6 +412,17 @@ public class DeviceControlActivity extends Activity {
 
             txt_testResults.setMovementMethod(new ScrollingMovementMethod());
             txt_testResults.setText(results);
+        }
+    }
+
+    private void initTestProcess() {
+        String deviceUnderTest = spnr_DUT.getSelectedItem().toString();
+        final byte[] tx = deviceUnderTest.getBytes();
+
+        if (mConnected) {
+            characteristicTX.setValue(tx);
+            mBluetoothLeService.writeCharacteristic(characteristicTX);
+            mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
         }
     }
 }
