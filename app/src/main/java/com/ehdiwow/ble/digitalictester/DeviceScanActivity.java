@@ -1,11 +1,13 @@
 package com.ehdiwow.ble.digitalictester;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -151,6 +153,25 @@ public class DeviceScanActivity extends ListActivity {
             mScanning = false;
         }
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder confirmExit = new AlertDialog.Builder(this);
+        confirmExit.setMessage("Exit application?")
+                   .setCancelable(false)
+                   .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface dialog, int id) {
+                           DeviceScanActivity.this.finish();
+                       }
+                   })
+                   .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface dialog, int id) {
+                           dialog.cancel();
+                       }
+                   });
+        AlertDialog alertExit = confirmExit.create();
+        alertExit.show();
     }
 
     private void scanLeDevice(final boolean enable) {
