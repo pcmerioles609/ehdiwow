@@ -8,3 +8,5 @@ This version contains the following:
 - read/write ble characteristic (send/receive data to/from Arduino)
 - establishes Android/Arduino start-up connection via handshaking
 - UI for IC type and IC part name selection
+- synchronized testing process with the Arduino Tester
+- offline mode notification
