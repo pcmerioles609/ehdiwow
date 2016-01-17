@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -66,8 +67,6 @@ public class DeviceControlActivity extends Activity {
 
     private TextView txt_testerStatus;
     private ScheduledExecutorService waitForTesterToRespond;
-
-
 
     public final static UUID HM_RX_TX =
             UUID.fromString(SampleGattAttributes.HM_RX_TX);
@@ -255,12 +254,27 @@ public class DeviceControlActivity extends Activity {
                 appendTestResults("PinMode Setup Complete.", false);
             } else if (data.equals("PWROK")) {
                 appendTestResults("Power Setup Complete.", false);
-            } else if (data.equals("RNDOK")) {
-                appendTestResults("Generating randomized test input complete.", false);
-            } else if (data.equals("TESTOK")) {
-                appendTestResults("Device Test completed. Comparing results...", false);
-            } else if (data.equals("ENDOK")) {
-                appendTestResults("Device Passed/Failed", false);
+            } else if (data.equals("TSTOK")) {
+                appendTestResults("Device Test completed.\nComparing results...", false);
+            } else if (data.contains(",")) {
+                String[] measurements = data.split(",");
+                try {
+                    List<Integer> resultList = new ArrayList<Integer>();
+                    for (String res : measurements)
+                        resultList.add(Integer.parseInt(res));
+                    int[] resultArray = new int[resultList.size()];
+                    for (int i=0; i<resultList.size(); i++)
+                        resultArray[i] = resultList.get(i);
+                    DeviceUnderTest.getInstance().set_readings(resultArray);
+
+                    if (DeviceUnderTest.getInstance().is_result())
+                        appendTestResults("Device Passed", false);
+                    else
+                        appendTestResults("Device Failed", false);
+                } catch (NumberFormatException err) {
+                    appendTestResults("An error occurred.", false);
+                }
+
                 enableDisableUI(true);
             } else if (data.equals("OFFLINE")) {
                 appendTestResults("", true);
@@ -397,6 +411,7 @@ public class DeviceControlActivity extends Activity {
 
                 enableDisableUI(false);                                 // disables UI first to prevent necessary user clicks
                 appendTestResults("", true);
+                tempSetDutIC(spnr_DUT.getSelectedItem().toString());
                 appendTestResults("Waiting for tester...", false);
                 askIfTesterIsReady(2);
             }
@@ -424,5 +439,17 @@ public class DeviceControlActivity extends Activity {
             mBluetoothLeService.writeCharacteristic(characteristicTX);
             mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
         }
+    }
+
+    // this is a temporary method for identifying DUT ICs until a proper ID method is created
+
+    private void tempSetDutIC(String spnrSel) {
+        IC currentDutIC = null;
+        if (spnrSel.equals("74LS04 (NOT)"))
+            currentDutIC = DeviceList._7404;
+        else if (spnrSel.equals("74LS08 (AND)"))
+            currentDutIC = DeviceList._7408;
+
+        DeviceUnderTest.getInstance().set_dutIC(currentDutIC);
     }
 }
