@@ -445,10 +445,35 @@ public class DeviceControlActivity extends Activity {
 
     private void tempSetDutIC(String spnrSel) {
         IC currentDutIC = null;
-        if (spnrSel.equals("74LS04 (NOT)"))
+        if (spnrSel.equals("74LS00 (NAND)"))
+            currentDutIC = DeviceList._7400;
+        else if (spnrSel.equals("74LS02 (NOR)"))
+            currentDutIC = DeviceList._7402;
+        else if (spnrSel.equals("74LS04 (NOT)"))
             currentDutIC = DeviceList._7404;
         else if (spnrSel.equals("74LS08 (AND)"))
             currentDutIC = DeviceList._7408;
+        else if (spnrSel.equals("74LS32 (OR)"))
+            currentDutIC = DeviceList._7432;
+        else if (spnrSel.equals("74LS86 (XOR)"))
+            currentDutIC = DeviceList._7486;
+        else if (spnrSel.equals("74LS266 (XNOR)"))
+            currentDutIC = DeviceList._74266;
+
+        else if (spnrSel.equals("CD4001 (NOR)"))
+            currentDutIC = DeviceList._4001;
+        else if (spnrSel.equals("CD4011 (NAND)"))
+            currentDutIC = DeviceList._4011;
+        else if (spnrSel.equals("CD4069 (NOT)"))
+            currentDutIC = DeviceList._4069;
+        else if (spnrSel.equals("CD4070 (XOR)"))
+            currentDutIC = DeviceList._4070;
+        else if (spnrSel.equals("CD4071 (OR)"))
+            currentDutIC = DeviceList._4071;
+        else if (spnrSel.equals("CD4077 (XNOR)"))
+            currentDutIC = DeviceList._4077;
+        else if (spnrSel.equals("CD4081 (AND)"))
+            currentDutIC = DeviceList._4081;
 
         DeviceUnderTest.getInstance().set_dutIC(currentDutIC);
     }
