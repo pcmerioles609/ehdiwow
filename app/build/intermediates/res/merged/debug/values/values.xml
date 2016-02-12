@@ -23,6 +23,8 @@
         <item>74LS86 (XOR)</item>
         <item>74LS266 (XNOR)</item>
     </string-array>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
     <string name="app_name">Digital IC Tester</string>
     <string name="ble_not_supported">BLE is not supported</string>
     <string name="blue_slide">Blue</string>
@@ -43,6 +45,7 @@
     <string name="rad_cmos">CMOS</string>
     <string name="rad_ttl">TTL</string>
     <string name="red_slide">Red</string>
+    <string name="title_activity_test_result">TEST RESULTS</string>
     <string name="title_devices">Tester Scan</string>
     <string name="txt_appVer">Version 1.0</string>
     <string name="txt_btnTest">TEST DEVICE</string>
@@ -50,7 +53,13 @@
     <string name="txt_dutName">Device Name :</string>
     <string name="txt_dutType">Device Type :</string>
     <string name="txt_notFound">No Device Found</string>
+    <string name="txt_remPin1">MAKE SURE THE COMPONENT IS ALIGNED</string>
+    <string name="txt_remPin2">THE SAME WAY AS THE IMAGE ABOVE</string>
+    <string name="txt_remPowerCMOS">POWER SOURCE CAN BE EITHER 3.3V OR 5V</string>
+    <string name="txt_remPowerTTL">MAKE SURE POWER SOURCE IS AT 5V</string>
     <string name="txt_responding">NOT RESPONDING</string>
+    <string name="txt_resultFAIL">DEVICE FAILED</string>
+    <string name="txt_resultPASS">DEVICE PASSED</string>
     <string name="txt_scan">Scanning...</string>
     <string name="txt_tester">Tester Status:</string>
     <string name="unknown_characteristic">Unknown characteristic</string>

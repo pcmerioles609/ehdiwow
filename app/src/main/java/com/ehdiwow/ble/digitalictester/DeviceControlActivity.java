@@ -1,11 +1,13 @@
 package com.ehdiwow.ble.digitalictester;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +27,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -74,6 +76,8 @@ public class DeviceControlActivity extends Activity {
     private final String LIST_NAME = "NAME";
     private final String LIST_UUID = "UUID";
 
+    private boolean onStopExemption = true;
+
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -118,7 +122,8 @@ public class DeviceControlActivity extends Activity {
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 // Show all the supported services and characteristics on the user interface.
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
-                askIfTesterIsReady(1);
+                // this does not work with ACTION_GATT_CONNECTED
+                sendCodeLoop(1);    // RDYSTRT?
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 decodeDataFromTester(intent.getStringExtra(mBluetoothLeService.EXTRA_DATA));
             }
@@ -152,7 +157,7 @@ public class DeviceControlActivity extends Activity {
         mDataField = (TextView) findViewById(R.id.data_value);
      
         getActionBar().setTitle(mDeviceName);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
@@ -178,7 +183,6 @@ public class DeviceControlActivity extends Activity {
             final boolean result = mBluetoothLeService.connect(mDeviceAddress);
             Log.d(TAG, "Connect request result=" + result);
         }
-
     }
 
     @Override
@@ -186,6 +190,22 @@ public class DeviceControlActivity extends Activity {
         super.onPause();
         unregisterReceiver(mGattUpdateReceiver);
         clearUI();
+    }
+
+    @Override
+    protected void onStop() {
+        if (onStopExemption)
+            sendCode("APPDISC" + "\n");
+        else
+            sendCode("RESULTS" + "\n");
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        sendCode("APPDISC" + "\n");
+        onStopExemption = true;
     }
 
     @Override
@@ -215,6 +235,7 @@ public class DeviceControlActivity extends Activity {
                 mBluetoothLeService.connect(mDeviceAddress);
                 return true;
             case R.id.menu_disconnect:
+                sendCode("APPDISC" + "\n");         // notifies the tester that the app disconnected
                 mBluetoothLeService.disconnect();
                 return true;
             case android.R.id.home:
@@ -249,7 +270,7 @@ public class DeviceControlActivity extends Activity {
                     waitForTesterToRespond.shutdown();
                 appendTestResults("Tester Device Ready.", false);
                 appendTestResults("Initializing test for " + spnr_DUT.getSelectedItem().toString(), false);
-                initTestProcess();
+                sendCode(spnr_DUT.getSelectedItem().toString());
             } else if (data.equals("PINOK")) {
                 appendTestResults("PinMode Setup Complete.", false);
             } else if (data.equals("PWROK")) {
@@ -274,6 +295,10 @@ public class DeviceControlActivity extends Activity {
                 } catch (NumberFormatException err) {
                     appendTestResults("An error occurred.", false);
                 }
+
+                onStopExemption = false;
+                Intent intent = new Intent("com.ehdiwow.ble.digitalictester.TestResultActivity");
+                startActivity(intent);
 
                 enableDisableUI(true);
             } else if (data.equals("OFFLINE")) {
@@ -331,39 +356,45 @@ public class DeviceControlActivity extends Activity {
 
     //  RESPOND REQUEST CODES //
     //  0 - reserved
-    //  1 - startUp
-    //  2 - beginTest
-    //  3 - endTest
+    //  1 - startUp         RDYSTRT?
+    //  2 - beginTest       RDYTEST?
+    //  3 - endTest         ENDTEST?
 
-    private void askIfTesterIsReady(final int code) {
+    private void sendCodeLoop(final int code) {
 
-        String sendTestRequest = "";
+        String message = "";
         switch (code) {
             case 0:
                     break;
             case 1: txt_testerStatus.setText("Waiting for response...");
-                    sendTestRequest = "RDYSTRT?" + "\n";
+                    message = "RDYSTRT?" + "\n";
                     break;
-            case 2: sendTestRequest = "RDYTEST?" + "\n";
+            case 2: message = "RDYTEST?" + "\n";
                     break;
-            case 3: sendTestRequest = "ENDTEST?" + "\n";
+            case 3: message = "ENDTEST?" + "\n";
                     break;
         }
-        final byte[] tx = sendTestRequest.getBytes();
 
+        final String request = message;
         waitForTesterToRespond = Executors.newSingleThreadScheduledExecutor();
         waitForTesterToRespond.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                if (mConnected) {
-                    characteristicTX.setValue(tx);
-                    mBluetoothLeService.writeCharacteristic(characteristicTX);
-                    mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
-                }
+                sendCode(request);
             }
         }, 0, 2000, TimeUnit.MILLISECONDS);
     }
 
+/*****************      SEND CODE MESSAGE TO TESTER      ***********************/
+
+    private void sendCode(String msg) {
+        final byte[] tx = msg.getBytes();
+        if (mConnected) {
+            characteristicTX.setValue(tx);
+            mBluetoothLeService.writeCharacteristic(characteristicTX);
+            mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
+        }
+    }
 
 /******************         DEVICE UNDER TEST       ******************************/
 
@@ -408,12 +439,29 @@ public class DeviceControlActivity extends Activity {
         btn_TEST.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                enableDisableUI(false);                                 // disables UI first to prevent necessary user clicks
-                appendTestResults("", true);
-                tempSetDutIC(spnr_DUT.getSelectedItem().toString());
-                appendTestResults("Waiting for tester...", false);
-                askIfTesterIsReady(2);
+                final AlertDialog.Builder testRemDialog = new AlertDialog.Builder(DeviceControlActivity.this);
+                LayoutInflater inflater = (DeviceControlActivity.this).getLayoutInflater();
+                testRemDialog.setTitle("TEST REMINDERS");
+                //testRemDialog.setCancelable(true);
+                testRemDialog.setView(inflater.inflate(R.layout.test_reminders_dialog, null))
+                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                 @Override
+                                 public void onClick(DialogInterface dialog, int id) {
+                                     enableDisableUI(false);                                 // disables UI first to prevent unnecessary user clicks
+                                     appendTestResults("", true);
+                                     tempSetDutIC(spnr_DUT.getSelectedItem().toString());
+                                     appendTestResults("Waiting for tester...", false);
+                                     sendCodeLoop(2);  // RDYTEST?
+                                 }
+                             })
+                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                 @Override
+                                 public void onClick(DialogInterface dialog, int id) {
+                                     // TODO : no action for when the user click CANCEL
+                                 }
+                             });
+                testRemDialog.create();
+                testRemDialog.show();
             }
         });
     }
@@ -430,18 +478,7 @@ public class DeviceControlActivity extends Activity {
         }
     }
 
-    private void initTestProcess() {
-        String deviceUnderTest = spnr_DUT.getSelectedItem().toString();
-        final byte[] tx = deviceUnderTest.getBytes();
-
-        if (mConnected) {
-            characteristicTX.setValue(tx);
-            mBluetoothLeService.writeCharacteristic(characteristicTX);
-            mBluetoothLeService.setCharacteristicNotification(characteristicRX, true);
-        }
-    }
-
-    // this is a temporary method for identifying DUT ICs until a proper ID method is created
+    // TODO : this is a temporary method for identifying DUT ICs until a proper ID method is created
 
     private void tempSetDutIC(String spnrSel) {
         IC currentDutIC = null;

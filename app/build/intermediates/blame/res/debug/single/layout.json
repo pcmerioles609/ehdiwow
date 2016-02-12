@@ -1,18 +1,26 @@
 [
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\actionbar_indeterminate_progress.xml",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\layout\\actionbar_indeterminate_progress.xml"
+        "merged": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\actionbar_indeterminate_progress.xml",
+        "source": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\src\\main\\res\\layout\\actionbar_indeterminate_progress.xml"
     },
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\gatt_services_characteristics.xml",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\layout\\gatt_services_characteristics.xml"
+        "merged": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_test_result.xml",
+        "source": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\src\\main\\res\\layout\\activity_test_result.xml"
     },
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\start_screen.xml",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\layout\\start_screen.xml"
+        "merged": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\list_tester_devices.xml",
+        "source": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\src\\main\\res\\layout\\list_tester_devices.xml"
     },
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\list_tester_devices.xml",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\layout\\list_tester_devices.xml"
+        "merged": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\gatt_services_characteristics.xml",
+        "source": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\src\\main\\res\\layout\\gatt_services_characteristics.xml"
+    },
+    {
+        "merged": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\start_screen.xml",
+        "source": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\src\\main\\res\\layout\\start_screen.xml"
+    },
+    {
+        "merged": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\layout\\test_reminders_dialog.xml",
+        "source": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\src\\main\\res\\layout\\test_reminders_dialog.xml"
     }
 ]

@@ -24,9 +24,9 @@
     <string name="menu_stop">Stop</string>
     <string name="is_serial">Serial Present:</string>
     <string-array name="roygbiv">
-        <item >Red</item>
-        <item >Green</item>
-        <item >Blue</item>
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
     </string-array>
     <string name="button">Send</string>
     <string name="red_slide">Red</string>
@@ -67,5 +67,18 @@
         <item>CD4081 (AND)</item>
     </string-array>
     <string name="txt_btnTest">TEST DEVICE</string>
+
+    <!--        TEST REMINDERS DIALOG       -->
+
+    <string name="txt_remPowerTTL">MAKE SURE POWER SOURCE IS AT 5V</string>
+    <string name="txt_remPowerCMOS">POWER SOURCE CAN BE EITHER 3.3V OR 5V</string>
+    <string name="txt_remPin1">MAKE SURE THE COMPONENT IS ALIGNED</string>
+    <string name="txt_remPin2">THE SAME WAY AS THE IMAGE ABOVE</string>
+
+    <!--        TEST RESULTS ACTIVITY       -->
+
+    <string name="title_activity_test_result">TEST RESULTS</string>
+    <string name="txt_resultPASS">DEVICE PASSED</string>
+    <string name="txt_resultFAIL">DEVICE FAILED</string>
 
 </resources>

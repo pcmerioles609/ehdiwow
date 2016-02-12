@@ -1,10 +1,10 @@
 [
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\menu\\main.xml"
+        "merged": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
+        "source": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\src\\main\\res\\menu\\main.xml"
     },
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\menu\\gatt_services.xml",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\menu\\gatt_services.xml"
+        "merged": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\menu\\gatt_services.xml",
+        "source": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\src\\main\\res\\menu\\gatt_services.xml"
     }
 ]

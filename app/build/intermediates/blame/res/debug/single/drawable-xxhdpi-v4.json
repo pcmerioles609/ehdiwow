@@ -1,6 +1,10 @@
 [
     {
-        "merged": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_launcher.png",
-        "source": "C:\\PhilipCesarMerioles\\AndroidApps\\ehdiwow\\app\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
+        "merged": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\zif_socket.png",
+        "source": "C:\\Users\\Merioles\\Documents\\AndroidStudio\\ehdiwow\\app\\src\\main\\res\\drawable-xxhdpi\\zif_socket.png"
     }
 ]

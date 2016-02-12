@@ -35,6 +35,8 @@ public class DeviceUnderTest {
         _result = Arrays.equals(_readings, _dutIC.get_reference());
     }
 
+    public int[] get_readings() { return _readings;}
+
     public boolean is_result() {
         return _result;
     }
