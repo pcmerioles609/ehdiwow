@@ -40,7 +40,7 @@ limitations under the License.
     <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:icon="@mipmap/dic_launcher"
+        android:icon="@drawable/testericon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light">
         <activity

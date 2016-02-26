@@ -17,18 +17,24 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content" >
+
+    <Space
+    android:layout_width="match_parent"
+    android:layout_height="10dp" />
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/dic_launcher" />
+        android:padding="20dp"
+        android:src="@drawable/testericon" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
+        android:textStyle="bold"
         android:gravity="center"
         android:textSize="30sp"/>
 
@@ -36,18 +42,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/txt_appVer"
+        android:textStyle="italic"
         android:gravity="center"
         android:textSize="20sp"/>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="10dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/txt_choose" />
+        android:text="@string/txt_choose"
+        android:textSize="12sp"/>
 
     <Space
         android:layout_width="match_parent"

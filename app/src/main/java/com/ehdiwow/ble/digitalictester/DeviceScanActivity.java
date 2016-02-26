@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -82,7 +83,7 @@ public class DeviceScanActivity extends ListActivity {
             menu.findItem(R.id.menu_stop).setVisible(true);
             menu.findItem(R.id.menu_scan).setVisible(false);
             menu.findItem(R.id.menu_refresh).setActionView(
-                    R.layout.actionbar_indeterminate_progress);
+                    R.layout.actionbar);
             getActionBar().setTitle(R.string.txt_scan);
 
         }
@@ -255,6 +256,9 @@ public class DeviceScanActivity extends ListActivity {
             else
                 viewHolder.deviceName.setText(R.string.unknown_device);
             viewHolder.deviceAddress.setText(device.getAddress());
+
+            viewHolder.deviceName.setTypeface(null, Typeface.BOLD_ITALIC);
+            viewHolder.deviceAddress.setTypeface(null, Typeface.ITALIC);
 
             return view;
         }

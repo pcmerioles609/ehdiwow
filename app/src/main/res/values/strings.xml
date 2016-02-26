@@ -5,7 +5,7 @@
     <string name="app_name">Digital IC Tester</string>
     <string name="ble_not_supported">BLE is not supported</string>
     <string name="label_data">Data:</string>
-    <string name="label_device_address">Device address:</string>
+    <string name="label_device_address">Address:</string>
     <string name="label_state">State:</string>
     <string name="no_data">No data</string>
     <string name="connected">Connected</string>
@@ -35,12 +35,13 @@
 
     <!--    DEVICE SCAN ACTIVITY    -->
 
-    <string name="txt_appVer">Version 1.0</string>
-    <string name="txt_choose">Select Tester Device:</string>
+    <string name="txt_appVer">Version 2.0</string>
+    <string name="txt_choose">SELECT TESTER DEVICE:</string>
     <string name="txt_scan">Scanning...</string>
     <string name="txt_notFound">No Device Found</string>
     <string name="txt_tester">Tester Status:</string>
     <string name="txt_responding">NOT RESPONDING</string>
+    <string name="txt_serialBuffer">SERIAL BUFFER</string>
 
     <!--    DEVICE UNDER TEST       -->
 
@@ -66,7 +67,7 @@
         <item>CD4077 (XNOR)</item>
         <item>CD4081 (AND)</item>
     </string-array>
-    <string name="txt_btnTest">TEST DEVICE</string>
+    <string name="txt_btnTest">TEST</string>
 
     <!--        TEST REMINDERS DIALOG       -->
 

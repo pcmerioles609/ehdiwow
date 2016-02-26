@@ -15,4 +15,5 @@ public class PIN {
     }
 
     public String get_name() { return _name; }
+    public int get_pinZIF() { return _pinZIF; }
 }

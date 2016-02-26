@@ -35,7 +35,7 @@
     <string name="green_slide">Green</string>
     <string name="is_serial">Serial Present:</string>
     <string name="label_data">Data:</string>
-    <string name="label_device_address">Device address:</string>
+    <string name="label_device_address">Address:</string>
     <string name="label_state">State:</string>
     <string name="menu_connect">Connect</string>
     <string name="menu_disconnect">Disconnect</string>
@@ -47,9 +47,9 @@
     <string name="red_slide">Red</string>
     <string name="title_activity_test_result">TEST RESULTS</string>
     <string name="title_devices">Tester Scan</string>
-    <string name="txt_appVer">Version 1.0</string>
-    <string name="txt_btnTest">TEST DEVICE</string>
-    <string name="txt_choose">Select Tester Device:</string>
+    <string name="txt_appVer">Version 2.0</string>
+    <string name="txt_btnTest">TEST</string>
+    <string name="txt_choose">SELECT TESTER DEVICE:</string>
     <string name="txt_dutName">Device Name :</string>
     <string name="txt_dutType">Device Type :</string>
     <string name="txt_notFound">No Device Found</string>
@@ -61,6 +61,7 @@
     <string name="txt_resultFAIL">DEVICE FAILED</string>
     <string name="txt_resultPASS">DEVICE PASSED</string>
     <string name="txt_scan">Scanning...</string>
+    <string name="txt_serialBuffer">SERIAL BUFFER</string>
     <string name="txt_tester">Tester Status:</string>
     <string name="unknown_characteristic">Unknown characteristic</string>
     <string name="unknown_device">Unknown device</string>

@@ -4,31 +4,27 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.app.Activity;
-import android.os.DropBoxManager;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TestResultActivity extends Activity {
 
-    private boolean showArrayValues = false;
+    private boolean showArrayValues = false;            // FOR TESTING PURPOSES -- to view the array content
     private String s = "";
     private LinearLayout parentLayout;
+    private ImageView imgFail;
     private Button btn_OK;
     private int testCount;
 
@@ -38,55 +34,80 @@ public class TestResultActivity extends Activity {
         setContentView(R.layout.activity_test_result);
         getActionBar().setDisplayHomeAsUpEnabled(false);
 
+
         TextView txt_deviceName = (TextView)findViewById(R.id.txtResDutName);
-        txt_deviceName.setText((DeviceUnderTest.getInstance().get_dutIC().get_name()));
         txt_deviceName.setTypeface(null, Typeface.BOLD);
         TextView txt_deviceDesc = (TextView)findViewById(R.id.txtResDutDesc);
-        txt_deviceDesc.setText((DeviceUnderTest.getInstance().get_dutIC().get_description()));
         txt_deviceDesc.setTypeface(null,Typeface.ITALIC);
+        TextView txt_passFail = (TextView)findViewById(R.id.txtPassFail);
+        txt_passFail.setTypeface(null,Typeface.BOLD);
+
         TextView txt_test = (TextView)findViewById(R.id.txtTest);
 
         btn_OK = (Button)findViewById(R.id.btnOK);
+        parentLayout = (LinearLayout)findViewById(R.id.linear_results);
+        imgFail = (ImageView)findViewById(R.id.image_fail);
         onConfirmTestResults();
 
-        TextView txt_passFail = (TextView)findViewById(R.id.txtPassFail);
-        txt_passFail.setText((DeviceUnderTest.getInstance().is_result()) ? R.string.txt_resultPASS : R.string.txt_resultFAIL);
-        txt_passFail.setTextColor((DeviceUnderTest.getInstance().is_result()) ? Color.GREEN : Color.RED);
-        txt_passFail.setTypeface(null,Typeface.BOLD);
+        /** This switch statement tells what will the RESULT ACTIVITY window displays based on the number of IC in the DUT List **/
+        switch (DevicesUnderTest.getInstance().get_dutICs().size()) {
+            // 0 means no IC left in the DUT List which means the device either failed or is not supported
+            case 0 :    txt_deviceName.setText("FAILED");
+                        txt_deviceDesc.setText("OR DEVICE NOT SUPPORTED");
+                        txt_passFail.setText(R.string.txt_resultFAIL);
+                        txt_passFail.setTextColor(Color.RED);
+                        imgFail.setImageResource(R.drawable.imgfail);
+                        break;
+            // 1 means there is only one IC in the DUT List which means the device passed
+            case 1 :    txt_deviceName.setText((DevicesUnderTest.getInstance().get_dutICs().get(0).get_icUT().get_name()));
+                        txt_deviceDesc.setText((DevicesUnderTest.getInstance().get_dutICs().get(0).get_icUT().get_description()));
+                        txt_passFail.setText(R.string.txt_resultPASS);
+                        txt_passFail.setTextColor(Color.GREEN);
 
-        int inputCount = DeviceUnderTest.getInstance().get_dutIC().get_inputCount();
-        int outputCount = DeviceUnderTest.getInstance().get_dutIC().get_outputCount();
-        testCount = DeviceUnderTest.getInstance().get_dutIC().get_testCount();
+                        int inputCount = DevicesUnderTest.getInstance().get_dutICs().get(0).get_icUT().get_inputCount();
+                        int outputCount = DevicesUnderTest.getInstance().get_dutICs().get(0).get_icUT().get_outputCount();
+                        testCount = DevicesUnderTest.getInstance().get_dutICs().get(0).get_icUT().get_testCount();
 
-        byte[][] decodedTestInputs = new byte[testCount][inputCount];
-        byte[][] decodedMeasuredOutputs = new byte[testCount][outputCount];
-        int[] testInputs = DeviceUnderTest.getInstance().get_dutIC().get_testInputs();
-        int[] measuredOutputs = DeviceUnderTest.getInstance().get_readings();
+                        byte[][] decodedTestInputs = new byte[testCount][inputCount];
+                        byte[][] decodedMeasuredOutputs = new byte[testCount][outputCount];
+                        int[] testInputs = DevicesUnderTest.getInstance().get_dutICs().get(0).get_icUT().get_testInputs();
+                        List<Integer> measuredOutList = DevicesUnderTest.getInstance().get_dutICs().get(0).get_digital();
 
-        decodedTestInputs = decoder(testInputs, inputCount);
-        decodedMeasuredOutputs = decoder(measuredOutputs, outputCount);
+                        int[] measuredOutputs = new int[measuredOutList.size()];
+                        for(int i=0; i<measuredOutList.size(); i++)
+                            measuredOutputs[i] = measuredOutList.get(i);
 
-        if (showArrayValues) {                          // shows the array values for testing purposes
-            for (byte[] x : decodedTestInputs) {
-                for (byte y : x) {
-                    s += String.valueOf(y);
-                } s += "\n";
-            }
-            for (byte[] x : decodedMeasuredOutputs) {
-                for (byte y : x) {
-                    s += String.valueOf(y);
-                } s += "\n";
-            }
-            txt_test.setText(s);
+                        decodedTestInputs = decoder(testInputs, inputCount);
+                        decodedMeasuredOutputs = decoder(measuredOutputs, outputCount);
+
+                        // FOR TESTING PURPOSES -- shows the array values for testing purposes
+                        if (showArrayValues) {
+                            for (byte[] x : decodedTestInputs) {
+                                for (byte y : x) {
+                                    s += String.valueOf(y);
+                                } s += "\n";
+                            }
+                            for (byte[] x : decodedMeasuredOutputs) {
+                                for (byte y : x) {
+                                    s += String.valueOf(y);
+                                } s += "\n";
+                            }
+                            txt_test.setText(s);
+                        }
+
+                        waveFormPainter(DevicesUnderTest.getInstance().get_dutICs().get(0).get_icUT().get_inputPins(), decodedTestInputs);
+                        waveFormPainter(DevicesUnderTest.getInstance().get_dutICs().get(0).get_icUT().get_outputPins(), decodedMeasuredOutputs);
+                        break;
+            // any value other than 0 or 1 means there is a problem in the database
+            default:    txt_deviceName.setText("FATAL ERROR");
+                        txt_deviceDesc.setText("DUPLICATE FOUND IN THE DATABASE");
+                        String dup = "FOUND : ";
+                        for (IcUnderTest icUT : DevicesUnderTest.getInstance().get_dutICs())
+                            dup += icUT.get_icUT().get_name() + " ";
+                        txt_passFail.setText(dup);
+                        break;
         }
-
-        parentLayout = (LinearLayout)findViewById(R.id.linear_results);
-        waveFormPainter(DeviceUnderTest.getInstance().get_dutIC().get_inputPins(), decodedTestInputs);
-        waveFormPainter(DeviceUnderTest.getInstance().get_dutIC().get_outputPins(), decodedMeasuredOutputs);
-
     }
-
-
 
     private void onConfirmTestResults() {                           // closes this Activity when OK is pressed
         btn_OK.setOnClickListener(new View.OnClickListener() {
@@ -102,9 +123,10 @@ public class TestResultActivity extends Activity {
         for (int i=0; i<enCoded.length; i++) {
             byte decodedBits[] = new byte[bitCount];
             int ctr = 0;
+            int temp = enCoded[i];
             do {
-                decodedBits[(bitCount-1)-ctr] = (byte)(enCoded[i]%2);
-                enCoded[i] /= 2;
+                decodedBits[(bitCount-1)-ctr] = (byte)(temp%2);
+                temp /= 2;
                 ctr++;
             } while (ctr < bitCount);
             decodedValues[i] = decodedBits;
